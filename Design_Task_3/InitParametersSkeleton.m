@@ -15,17 +15,17 @@ set(0,'defaultlinelinewidth',2)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Vehicle parameters [SI units]
 %
-totalMass =               %ADD YOUR CODE HERE;
-totalUnsprungMass =       %ADD YOUR CODE HERE;
-totalSprungMass =         %ADD YOUR CODE HERE;
-wheelBase =               %ADD YOUR CODE HERE
-distanceCogToFrontAxle =  %ADD YOUR CODE HERE
-frontWheelSuspStiff =      %ADD YOUR CODE HERE;
-frontWheelSuspStiff =       %ADD YOUR CODE HERE;
-frontWheelSuspDamp =       %ADD YOUR CODE HERE;
-rearWheelSuspDamp =        %ADD YOUR CODE HERE;
-tireStiff =               %ADD YOUR CODE HERE;
-tireDamp =                %ADD YOUR CODE HERE;
+totalMass = 1860;
+totalUnsprungMass = 185;
+totalSprungMass = totalMass - totalUnsprungMass;
+wheelBase = 2.675;
+distanceCogToFrontAxle = 0.4*wheelBase;
+frontWheelSuspStiff = 30800;
+rearWheelSuspStiff = 29900;
+frontWheelSuspDamp = 4500;
+rearWheelSuspDamp = 3500;
+tireStiff = 230000;
+tireDamp = 0;
 
 % Other parameters Task 1
 %

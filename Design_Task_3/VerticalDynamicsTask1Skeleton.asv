@@ -33,16 +33,16 @@ Bf =  [0; 0; tireStiff/unsprungMassFront; 0];
 % 3) front wheel Zr to Tyre force
 
 % matrices Zr to Ride,front wheel:
-C1f = frontWheelSuspStiff/sprungMassFront*[1 -1 1 -1];
+C1f = [frontWheelSuspStiff/sprungMassFront -1 1 -1];
 D1f = 0;
 
 % matrices for Zr to Suspension travel, front wheel:
-C2f = [-1 0 0 0];
-D2f = 0;
+C2f = [1 0 0 0];
+D2f = -1;
 
 % matrices for Zr to Tyre force, front wheel:
-C3f = [-tireStiff 0 0 0];
-D3f = tireStiff;
+C3f = [-1 0 0 0];
+D3f = 1;
 
 transferFunctionFrontZrToRide = zeros(length(angularFrequencyVector),1);
 transferFunctionFrontZrToTravel = zeros(length(angularFrequencyVector),1);
@@ -75,7 +75,7 @@ Br =  [0; 0; tireStiff/unsprungMassRear; 0];
 % 3) rear wheel Zr to Tyre force
 
 % matrices Zr to Ride, rear wheel:
-C1r = rearWheelSuspStiff/sprungMassRear*[1 -1 1 -1];
+C1r = C1f;
 D1r = D1f;
 
 % matrices for Zr to Suspension travel, rear wheel:
@@ -105,8 +105,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToRide)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToRide)),'--r');
 axis([0 50 -10 60]);grid
 legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
+xlabel('Magnitude [m]');%ADD YOUR CODE HERE
+ylabel('dB [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Ride Comfort');
 
 figure;
@@ -114,8 +114,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToTravel)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToTravel)),'--r');
 axis([0 50 -50 10]);grid
 legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
+xlabel('Magnitude [m]');%ADD YOUR CODE HERE
+ylabel('dB [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Suspension Travel');
 
 figure;
@@ -123,8 +123,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToForce)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToForce)),'--r');
 axis([0 50 40 115]);grid
 legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
+xlabel('Magnitude [m]');%ADD YOUR CODE HERE
+ylabel('dB [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Road Grip');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
