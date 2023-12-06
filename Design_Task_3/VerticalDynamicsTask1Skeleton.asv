@@ -33,16 +33,17 @@ Bf =  [0; 0; tireStiff/unsprungMassFront; 0];
 % 3) front wheel Zr to Tyre force
 
 % matrices Zr to Ride,front wheel:
-C1f = [frontWheelSuspStiff/sprungMassFront -1 1 -1];
+% C1f = 1/sprungMassFront*[frontWheelSuspStiff -frontWheelSuspStiff frontWheelSuspDamp - frontWheelSuspDamp];
+C1f = 1/sprungMassFront*[tireStiff -tireStiff frontWheelSuspDamp -frontWheelSuspDamp];
 D1f = 0;
 
 % matrices for Zr to Suspension travel, front wheel:
-C2f = [1 0 0 0];
-D2f = -1;
+C2f = [1 -1 0 0];
+D2f = 0;
 
 % matrices for Zr to Tyre force, front wheel:
-C3f = [-1 0 0 0];
-D3f = 1;
+C3f = [-tireStiff 0 0 0];
+D3f = tireStiff;
 
 transferFunctionFrontZrToRide = zeros(length(angularFrequencyVector),1);
 transferFunctionFrontZrToTravel = zeros(length(angularFrequencyVector),1);
@@ -75,16 +76,16 @@ Br =  [0; 0; tireStiff/unsprungMassRear; 0];
 % 3) rear wheel Zr to Tyre force
 
 % matrices Zr to Ride, rear wheel:
-C1r = C1f;
-D1r = D1f;
+C1r = [0 0 0 1];
+D1r = 0;
 
 % matrices for Zr to Suspension travel, rear wheel:
-C2r = C2f;
-D2r = D2f;
+C2r = [1 -1 0 0];
+D2r = 0;
 
 % matrices for Zr to Zr to Tyre force, rear wheel:
-C3r = C3f;
-D3r = D3f;
+C3r = [-tireStiff 0 0 0];
+D3r = tireStiff;
 
 % Rear wheel
 transferFunctionRearZrToRide = zeros(length(angularFrequencyVector),1);
@@ -105,8 +106,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToRide)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToRide)),'--r');
 axis([0 50 -10 60]);grid
 legend('Front','Rear','Location','northwest');
-xlabel('Magnitude [m]');%ADD YOUR CODE HERE
-ylabel('dB [Hz]');%ADD YOUR CODE HERE
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Ride Comfort');
 
 figure;
@@ -114,8 +115,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToTravel)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToTravel)),'--r');
 axis([0 50 -50 10]);grid
 legend('Front','Rear','Location','northwest');
-xlabel('Magnitude [m]');%ADD YOUR CODE HERE
-ylabel('dB [Hz]');%ADD YOUR CODE HERE
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Suspension Travel');
 
 figure;
@@ -123,8 +124,8 @@ semilogx(frequencyVector,db(abs(transferFunctionFrontZrToForce)),'-b',...
     frequencyVector,db(abs(transferFunctionRearZrToForce)),'--r');
 axis([0 50 40 115]);grid
 legend('Front','Rear','Location','northwest');
-xlabel('Magnitude [m]');%ADD YOUR CODE HERE
-ylabel('dB [Hz]');%ADD YOUR CODE HERE
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Road Grip');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -10,7 +10,7 @@ clc;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Load parameters from file "InitParameters.m"
 
-run('InitParametersSkeleton.m')
+InitParametersSkeleton
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Task 1.3
@@ -33,11 +33,12 @@ Bf =  [0; 0; tireStiff/unsprungMassFront; 0];
 % 3) front wheel Zr to Tyre force
 
 % matrices Zr to Ride,front wheel:
-C1f = frontWheelSuspStiff/sprungMassFront*[1 -1 1 -1];
+% C1f = 1/sprungMassFront*[frontWheelSuspStiff -frontWheelSuspStiff frontWheelSuspDamp - frontWheelSuspDamp];
+C1f = (1/sprungMassFront).*[tireStiff -tireStiff frontWheelSuspDamp -frontWheelSuspDamp];
 D1f = 0;
 
 % matrices for Zr to Suspension travel, front wheel:
-C2f = [-1 0 0 0];
+C2f = [1 -1 0 0];
 D2f = 0;
 
 % matrices for Zr to Tyre force, front wheel:
@@ -75,16 +76,16 @@ Br =  [0; 0; tireStiff/unsprungMassRear; 0];
 % 3) rear wheel Zr to Tyre force
 
 % matrices Zr to Ride, rear wheel:
-C1r = rearWheelSuspStiff/sprungMassRear*[1 -1 1 -1];
-D1r = D1f;
+C1r = (1/sprungMassRear).*[tireStiff -tireStiff rearWheelSuspDamp -rearWheelSuspDamp];
+D1r = 0;
 
 % matrices for Zr to Suspension travel, rear wheel:
-C2r = C2f;
-D2r = D2f;
+C2r = [1 -1 0 0];
+D2r = 0;
 
 % matrices for Zr to Zr to Tyre force, rear wheel:
-C3r = C3f;
-D3r = D3f;
+C3r = [-tireStiff 0 0 0];
+D3r = tireStiff;
 
 % Rear wheel
 transferFunctionRearZrToRide = zeros(length(angularFrequencyVector),1);
