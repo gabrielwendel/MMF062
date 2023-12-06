@@ -17,8 +17,8 @@ InitParametersSkeleton
 %
 % Consider one single front wheel, identify sprung mass and unsprung mass
 
-sprungMassFront = 0.5*totalSprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase;
-unsprungMassFront = 0.5*totalUnsprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase;
+sprungMassFront = (totalSprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
+unsprungMassFront = (totalUnsprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
 
 % Identify indiviual A and B matrix
 Af =  [0 0 1 0; 
@@ -60,8 +60,8 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Consider one single rear wheel, identify sprung mass and unsprung mass
 
-sprungMassRear = 0.5 * totalSprungMass*distanceCogToFrontAxle / wheelBase;
-unsprungMassRear = 0.5 * totalUnsprungMass*distanceCogToFrontAxle / wheelBase;
+sprungMassRear = 0.5*totalSprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
+unsprungMassRear = 0.5*totalUnsprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
 
 % Identify indiviual A and B matrix
 Ar =  [0 0 1 0; 
@@ -128,15 +128,21 @@ ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
 xlabel('f [Hz]');%ADD YOUR CODE HERE
 title('Magnitude of transfer function Road Grip');
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %% Task 1.4
-% %
-% % Identify natural frequencies
-% 
-% % Front wheel
-% resonanceFreqFrontBounce = %ADD YOUR CODE HERE
-% resonanceFreqFrontHop = %ADD YOUR CODE HERE
-% 
-% % Rear wheel
-% resonanceFreqRearBounce = %ADD YOUR CODE HERE
-% resonanceFreqRearHop = %ADD YOUR CODE HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Task 1.4
+%
+% Identify natural frequencies
+
+% Front wheel
+resonanceFreqFrontBounce = sqrt((1 /(1 / frontWheelSuspStiff + 1/tireStiff)) / sprungMassFront);
+resonanceFreqFrontHop = sqrt((frontWheelSuspStiff + tireStiff) / unsprungMassFront);
+
+% Rear wheel
+resonanceFreqRearBounce = sqrt((1 /(1 / rearWheelSuspStiff + 1/tireStiff)) / sprungMassRear);
+resonanceFreqRearHop = sqrt((rearWheelSuspStiff + tireStiff) / unsprungMassRear);
+
+% Convert from rad to Hertz
+resonanceFreqFrontBounceInHertz = (resonanceFreqFrontBounce)/(2*pi);
+resonanceFreqFrontHopInHertz = (resonanceFreqFrontHop)/(2*pi);
+resonanceFreqRearBounceInHertz = (resonanceFreqRearBounce)/(2*pi);
+resonanceFreqRearHop = (resonanceFreqRearHop)/(2*pi);

@@ -20,6 +20,7 @@ totalUnsprungMass = 185;
 totalSprungMass = totalMass - totalUnsprungMass;
 wheelBase = 2.675;
 distanceCogToFrontAxle = 0.4*wheelBase;
+distanceCogToRearAxle = 0.6*wheelBase;
 frontWheelSuspStiff = 30800;
 rearWheelSuspStiff = 29900;
 frontWheelSuspDamp = 4500;
