@@ -21,7 +21,7 @@ InitParametersSkeleton
 % unsprungMassFront = (totalUnsprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
 
 sprungMassFront = 0.5*(distanceCogToRearAxle/wheelBase)*totalSprungMass;
-unsprungMassFront =  0.5*(distanceCogToRearAxle/wheelBase)*totalUnsprungMass;
+unsprungMassFront =  0.25*totalUnsprungMass;
 
 % Identify indiviual A and B matrix
 Af =  [0 0 1 0; 
@@ -37,7 +37,7 @@ Bf =  [0; 0; tireStiff/unsprungMassFront; 0];
 
 % matrices Zr to Ride,front wheel:
 % C1f = 1/sprungMassFront*[frontWheelSuspStiff -frontWheelSuspStiff frontWheelSuspDamp - frontWheelSuspDamp];
-C1f = [tireStiff/sprungMassFront -tireStiff/sprungMassFront frontWheelSuspDamp/sprungMassFront -frontWheelSuspDamp/sprungMassFront];
+C1f = [frontWheelSuspStiff/sprungMassFront -frontWheelSuspStiff/sprungMassFront frontWheelSuspDamp/sprungMassFront -frontWheelSuspDamp/sprungMassFront];
 D1f = 0;
 
 % matrices for Zr to Suspension travel, front wheel:
@@ -67,7 +67,7 @@ end
 % unsprungMassRear = 0.5*totalUnsprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
 
 sprungMassRear = 0.5*(distanceCogToFrontAxle/wheelBase)*totalSprungMass;
-unsprungMassRear = 0.5*(distanceCogToFrontAxle/wheelBase)*totalUnsprungMass;
+unsprungMassRear = 0.25*totalUnsprungMass;
 
 % Identify indiviual A and B matrix
 Ar =  [0 0 1 0; 
@@ -82,7 +82,7 @@ Br =  [0; 0; tireStiff/unsprungMassRear; 0];
 % 3) rear wheel Zr to Tyre force
 
 % matrices Zr to Ride, rear wheel:
-C1r = [tireStiff/sprungMassRear -tireStiff/sprungMassRear rearWheelSuspDamp/sprungMassRear -rearWheelSuspDamp/sprungMassRear];
+C1r = [rearWheelSuspStiff/sprungMassRear -rearWheelSuspStiff/sprungMassRear rearWheelSuspDamp/sprungMassRear -rearWheelSuspDamp/sprungMassRear];
 D1r = 0;
 
 % matrices for Zr to Suspension travel, rear wheel:
@@ -106,35 +106,6 @@ for j = 1 : length(angularFrequencyVector)
     transferFunctionRearZrToForce(j,:) = C3r*inv(1i*angularFrequencyVector(j)*eye(4) - Ar)*Br + D3r;
 end
 
-% Plot the transfer functions
-figure;
-semilogx(frequencyVector,db(abs(transferFunctionFrontZrToRide)),'-b',...
-    frequencyVector,db(abs(transferFunctionRearZrToRide)),'--r');
-axis([0 50 -10 60]);grid
-legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
-title('Magnitude of transfer function Ride Comfort');
-
-figure;
-semilogx(frequencyVector,db(abs(transferFunctionFrontZrToTravel)),'-b',...
-    frequencyVector,db(abs(transferFunctionRearZrToTravel)),'--r');
-axis([0 50 -50 10]);grid
-legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
-title('Magnitude of transfer function Suspension Travel');
-
-figure;
-semilogx(frequencyVector,db(abs(transferFunctionFrontZrToForce)),'-b',...
-    frequencyVector,db(abs(transferFunctionRearZrToForce)),'--r');
-axis([0 50 40 115]);grid
-legend('Front','Rear','Location','northwest');
-ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
-xlabel('f [Hz]');%ADD YOUR CODE HERE
-title('Magnitude of transfer function Road Grip');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Task 1.4
 %
 % Identify natural frequencies
@@ -152,3 +123,52 @@ resonanceFreqFrontBounceInHertz = (resonanceFreqFrontBounce)/(2*pi)
 resonanceFreqFrontHopInHertz = (resonanceFreqFrontHop)/(2*pi)
 resonanceFreqRearBounceInHertz = (resonanceFreqRearBounce)/(2*pi)
 resonanceFreqRearHopInHertz = (resonanceFreqRearHop)/(2*pi)
+
+% Plot the transfer functions and natural frequencies
+figure(1)
+semilogx(frequencyVector,db(abs(transferFunctionFrontZrToRide)),'-b',...
+    frequencyVector,db(abs(transferFunctionRearZrToRide)),'--r');
+axis([0 50 -10 60]);grid
+legend('Front','Rear','Location','northwest');
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
+title('Magnitude of transfer function Ride Comfort');
+hold on
+% add vertical lines to plot
+xline(resonanceFreqFrontBounceInHertz,'r--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front bounce');
+xline(resonanceFreqFrontHopInHertz,'g--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front hop');
+xline(resonanceFreqRearBounceInHertz,'b--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear bounce');
+xline(resonanceFreqRearHopInHertz,'m--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear hop');
+
+figure(2)
+semilogx(frequencyVector,db(abs(transferFunctionFrontZrToTravel)),'-b',...
+    frequencyVector,db(abs(transferFunctionRearZrToTravel)),'--r');
+axis([0 50 -50 10]);grid
+legend('Front','Rear','Location','northwest');
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
+title('Magnitude of transfer function Suspension Travel');
+hold on
+% add vertical lines to plot
+xline(resonanceFreqFrontBounceInHertz,'r--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front bounce');
+xline(resonanceFreqFrontHopInHertz,'g--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front hop');
+xline(resonanceFreqRearBounceInHertz,'b--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear bounce');
+xline(resonanceFreqRearHopInHertz,'m--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear hop');
+
+figure(3)
+semilogx(frequencyVector,db(abs(transferFunctionFrontZrToForce)),'-b',...
+    frequencyVector,db(abs(transferFunctionRearZrToForce)),'--r');
+axis([0 50 40 115]);grid
+legend('Front','Rear','Location','northwest');
+ylabel('Magnitude [dB]');%ADD YOUR CODE HERE
+xlabel('f [Hz]');%ADD YOUR CODE HERE
+title('Magnitude of transfer function Road Grip');
+hold on
+% add vertical lines to plot
+xline(resonanceFreqFrontBounceInHertz,'r--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front bounce');
+xline(resonanceFreqFrontHopInHertz,'g--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency front hop');
+xline(resonanceFreqRearBounceInHertz,'b--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear bounce');
+xline(resonanceFreqRearHopInHertz,'m--', 'LineWidth', 1.5, 'DisplayName', 'Resonance frequency rear hop');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
