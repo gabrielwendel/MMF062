@@ -17,8 +17,11 @@ InitParametersSkeleton
 %
 % Consider one single front wheel, identify sprung mass and unsprung mass
 
-sprungMassFront = (totalSprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
-unsprungMassFront = (totalUnsprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
+% sprungMassFront = (totalSprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
+% unsprungMassFront = (totalUnsprungMass * (wheelBase - distanceCogToFrontAxle) / wheelBase)/2;
+
+sprungMassFront = 0.5*(distanceCogToRearAxle/wheelBase)*totalSprungMass;
+unsprungMassFront =  0.5*(distanceCogToRearAxle/wheelBase)*totalUnsprungMass;
 
 % Identify indiviual A and B matrix
 Af =  [0 0 1 0; 
@@ -34,7 +37,7 @@ Bf =  [0; 0; tireStiff/unsprungMassFront; 0];
 
 % matrices Zr to Ride,front wheel:
 % C1f = 1/sprungMassFront*[frontWheelSuspStiff -frontWheelSuspStiff frontWheelSuspDamp - frontWheelSuspDamp];
-C1f = (1/sprungMassFront).*[tireStiff -tireStiff frontWheelSuspDamp -frontWheelSuspDamp];
+C1f = [tireStiff/sprungMassFront -tireStiff/sprungMassFront frontWheelSuspDamp/sprungMassFront -frontWheelSuspDamp/sprungMassFront];
 D1f = 0;
 
 % matrices for Zr to Suspension travel, front wheel:
@@ -60,8 +63,11 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Consider one single rear wheel, identify sprung mass and unsprung mass
 
-sprungMassRear = 0.5*totalSprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
-unsprungMassRear = 0.5*totalUnsprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
+% sprungMassRear = 0.5*totalSprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
+% unsprungMassRear = 0.5*totalUnsprungMass * (wheelBase - distanceCogToRearAxle) / wheelBase;
+
+sprungMassRear = 0.5*(distanceCogToFrontAxle/wheelBase)*totalSprungMass;
+unsprungMassRear = 0.5*(distanceCogToFrontAxle/wheelBase)*totalUnsprungMass;
 
 % Identify indiviual A and B matrix
 Ar =  [0 0 1 0; 
@@ -76,7 +82,7 @@ Br =  [0; 0; tireStiff/unsprungMassRear; 0];
 % 3) rear wheel Zr to Tyre force
 
 % matrices Zr to Ride, rear wheel:
-C1r = (1/sprungMassRear).*[tireStiff -tireStiff rearWheelSuspDamp -rearWheelSuspDamp];
+C1r = [tireStiff/sprungMassRear -tireStiff/sprungMassRear rearWheelSuspDamp/sprungMassRear -rearWheelSuspDamp/sprungMassRear];
 D1r = 0;
 
 % matrices for Zr to Suspension travel, rear wheel:
@@ -95,9 +101,9 @@ transferFunctionRearZrToForce = zeros(length(angularFrequencyVector),1);
 
 for j = 1 : length(angularFrequencyVector)
     % Calculate H(w) not the absolut value |H(w)|
-    transferFunctionRearZrToRide(j,:) = C1r*inv(1i*angularFrequencyVector(j)*eye(4) - Af)*Br + D1r;
-    transferFunctionRearZrToTravel(j,:) = C2r*inv(1i*angularFrequencyVector(j)*eye(4) - Af)*Br + D2r;
-    transferFunctionRearZrToForce(j,:) = C3r*inv(1i*angularFrequencyVector(j)*eye(4) - Af)*Br + D3r;
+    transferFunctionRearZrToRide(j,:) = C1r*inv(1i*angularFrequencyVector(j)*eye(4) - Ar)*Br + D1r;
+    transferFunctionRearZrToTravel(j,:) = C2r*inv(1i*angularFrequencyVector(j)*eye(4) - Ar)*Br + D2r;
+    transferFunctionRearZrToForce(j,:) = C3r*inv(1i*angularFrequencyVector(j)*eye(4) - Ar)*Br + D3r;
 end
 
 % Plot the transfer functions
@@ -142,7 +148,7 @@ resonanceFreqRearBounce = sqrt((1 /(1 / rearWheelSuspStiff + 1/tireStiff)) / spr
 resonanceFreqRearHop = sqrt((rearWheelSuspStiff + tireStiff) / unsprungMassRear);
 
 % Convert from rad to Hertz
-resonanceFreqFrontBounceInHertz = (resonanceFreqFrontBounce)/(2*pi);
-resonanceFreqFrontHopInHertz = (resonanceFreqFrontHop)/(2*pi);
-resonanceFreqRearBounceInHertz = (resonanceFreqRearBounce)/(2*pi);
-resonanceFreqRearHop = (resonanceFreqRearHop)/(2*pi);
+resonanceFreqFrontBounceInHertz = (resonanceFreqFrontBounce)/(2*pi)
+resonanceFreqFrontHopInHertz = (resonanceFreqFrontHop)/(2*pi)
+resonanceFreqRearBounceInHertz = (resonanceFreqRearBounce)/(2*pi)
+resonanceFreqRearHopInHertz = (resonanceFreqRearHop)/(2*pi)
