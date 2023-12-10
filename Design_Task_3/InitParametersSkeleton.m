@@ -35,18 +35,18 @@ angularFrequencyVector = 2 * pi * frequencyVector;
 deltaAngularFrequency = 2 * pi * 0.01;
 
 % % Uncomment following from Task 2 and 3
+
+% Other parameters Task 2
+% Parameters from task instructions
+roadDisplacementAmplitude = 1;
+roadSeverity = 10*10^-6;
+vehicleVelocity = 80/3.6;
+roadWaviness = 2.5;
+frontWheelSuspDampVector = [1000 : 100 : 9000];
+frontWheelSuspStiffVector = [0.5 0.75 1 1.25 1.5 2]*frontWheelSuspStiff;
+
+% Other parameters Task 3
 %
-% % Other parameters Task 2
-% %
-% roadDisplacementAmplitude = 1;
-% roadSeverity =            %ADD YOUR CODE HERE;
-% vehicleVelocity =         %ADD YOUR CODE HERE;
-% roadWaviness =            %ADD YOUR CODE HERE;
-% frontWheelSuspDampVector = [1000 : 100 : 9000];
-% frontWheelSuspStiffVector = [0.5 0.75 1 1.25 1.5 2]*frontWheelSuspStiff;
-% 
-% % Other parameters Task 3
-% %
 % roadSeveritySmooth =      %ADD YOUR CODE HERE;
 % roadSeverityRough =       %ADD YOUR CODE HERE;
 % roadSeverityVeryRough =   %ADD YOUR CODE HERE;
