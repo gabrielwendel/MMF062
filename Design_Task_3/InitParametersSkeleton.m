@@ -61,6 +61,6 @@ distanceRoughRoad = 0.175*totalDistance;
 distanceVeryRoughRoad = 0.125*totalDistance;
 
 vehicleVelocitySmooth = 110/3.6;    % max allowed vehicle velocity on any road type 100km/h
-vehicleVelocityRough = 110/3.6;
-vehicleVelocityVeryRough = 110/3.6;
+vehicleVelocityRough = 90/3.6;
+vehicleVelocityVeryRough = 20/3.6;
 
