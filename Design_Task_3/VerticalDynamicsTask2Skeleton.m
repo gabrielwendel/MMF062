@@ -115,6 +115,9 @@ for ind1 = 1 : length(frontWheelSuspStiffVector)
                -(tireStiff + frontWheelSuspStiff)/unsprungMassFront frontWheelSuspStiff/unsprungMassFront -frontWheelSuspDamp/unsprungMassFront frontWheelSuspDamp/unsprungMassFront;
                frontWheelSuspStiff/sprungMassFront -frontWheelSuspStiff/sprungMassFront frontWheelSuspDamp/sprungMassFront -frontWheelSuspDamp/sprungMassFront];
         
+        C1f = [frontWheelSuspStiff/sprungMassFront -frontWheelSuspStiff/sprungMassFront frontWheelSuspDamp/sprungMassFront -frontWheelSuspDamp/sprungMassFront];
+        C3f = [-tireStiff 0 0 0];
+
         % Calculate transfer functions for front wheel Zr to Ride and Tyre force
 
             transferFunctionFrontZrToRide = zeros(length(angularFrequencyVector),1);
@@ -176,11 +179,21 @@ axis([0 10000 0 1400]);
 figure;
 % Use optimal rms acc/force index
 plot(frontWheelSuspStiffVector, frontWheelSuspDampVector(iOptimalRmsAcceleration));
+hold on
 plot(frontWheelSuspStiffVector, frontWheelSuspDampVector(iOptimalRmsForce));
 grid
+
+frontWheelSuspDamp_optimal_points = frontWheelSuspDampVector(iOptimalRmsAcceleration);
+frontWheelSuspStiff_optimal_points = frontWheelSuspDampVector(iOptimalRmsForce);
+
+% Plot optimal damping coefficient as a mean
+for i=1:length(frontWheelSuspDampVector(iOptimalRmsForce))
+    mean_optimal_damping(i) = (frontWheelSuspDamp_optimal_points(i) + frontWheelSuspStiff_optimal_points(i))/2;
+end
+scatter(frontWheelSuspStiffVector,mean_optimal_damping,'o','filled', 'MarkerEdgeColor', 'k', 'MarkerFaceColor', 'g', 'SizeData', 50)
 xlabel('Spring stiffness [N/m]'); 
 ylabel('Damping coefficient [Ns/m]');
 title('Optimal damping vs spring stiffness');
-legend('rmsAcce','rmsForce');
+legend('rmsAcce','rmsForce','mean value of optimal rms');
 axis([10000 65000 0 4000]);
 

@@ -64,20 +64,20 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ii)
 % Calculate rms values weighted according to ISO2631 
-[weightedRmsAccelerationSmooth] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationSmooth);
-[weightedRmsAccelerationRough] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationRough);
-[weightedRmsAccelerationVeryRough] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationVeryRough);
+[weightedRmsAccelerationSmooth] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationSmooth)
+[weightedRmsAccelerationRough] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationRough)
+[weightedRmsAccelerationVeryRough] = CalculateIsoWeightedRms(frequencyVector,psdAccelerationVeryRough)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % iii)
 % Calculate time averaged vibration exposure value for 8h period
-timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay;
-timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay;
-timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay;
+timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay
+timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay
+timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay
 
-timeWeightedMsAcceleration = (weightedRmsAccelerationSmooth^2*timeOnSmoothRoad + ...
-    weightedRmsAccelerationRough^2*timeOnRoughRoad + weightedRmsAccelerationVeryRough^2*timeOnVeryRoughRoad) ...
-    / (timeOnSmoothRoad + timeOnRoughRoad + timeOnVeryRoughRoad);
+timeWeightedMsAccelerationSmooth = sqrt((weightedRmsAccelerationSmooth^2*timeOnSmoothRoad)/)
+timeWeightedMsAccelerationRough = 
+timeWeightedMsAccelerationVeryRough = 
 
 timeWeightedRmsAcceleration = sqrt(timeWeightedMsAcceleration);
 
