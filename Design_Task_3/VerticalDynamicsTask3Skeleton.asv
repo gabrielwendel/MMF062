@@ -71,19 +71,41 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % iii)
 % Calculate time averaged vibration exposure value for 8h period
-timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay
-timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay
-timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay
 
-timeWeightedMsAccelerationSmooth = sqrt((weightedRmsAccelerationSmooth^2*timeOnSmoothRoad)/)
-timeWeightedMsAccelerationRough = 
-timeWeightedMsAccelerationVeryRough = 
+timeWeightedRmsAcceleration = 2;
 
-timeWeightedRmsAcceleration = sqrt(timeWeightedMsAcceleration);
+while timeWeightedRmsAcceleration > 1.15
+    vehicleVelocityRough
+    timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay;
+    timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay;
+    timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay;
+    
+    timeWeightedMsAcceleration = (weightedRmsAccelerationSmooth^2*timeOnSmoothRoad + ...
+        weightedRmsAccelerationRough^2*timeOnRoughRoad + weightedRmsAccelerationVeryRough^2*timeOnVeryRoughRoad) ...
+        / (timeOnSmoothRoad + timeOnRoughRoad + timeOnVeryRoughRoad);
+    
+    timeWeightedRmsAcceleration = sqrt(timeWeightedMsAcceleration);
+end
 
 disp(['timeWeightedRmsAcceleration =' num2str(timeWeightedRmsAcceleration),' m/s2 (1.15)',...
     ', numberOfTripsPerDay = ' num2str(numberOfTripsPerDay)]);
 disp(['vehicleVelocitySmooth = ' num2str(vehicleVelocitySmooth*3.6),' km/h',...
     ', vehicleVelocityRough = ' num2str(vehicleVelocityRough*3.6),' km/h',...
     ', vehicleVelocityVeryRough = ' num2str(vehicleVelocityVeryRough*3.6),' km/h'])
+
+% timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay;
+% timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay;
+% timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay;
+% 
+% timeWeightedMsAcceleration = (weightedRmsAccelerationSmooth^2*timeOnSmoothRoad + ...
+%     weightedRmsAccelerationRough^2*timeOnRoughRoad + weightedRmsAccelerationVeryRough^2*timeOnVeryRoughRoad) ...
+%     / (timeOnSmoothRoad + timeOnRoughRoad + timeOnVeryRoughRoad);
+% 
+% timeWeightedRmsAcceleration = sqrt(timeWeightedMsAcceleration);
+% 
+% disp(['timeWeightedRmsAcceleration =' num2str(timeWeightedRmsAcceleration),' m/s2 (1.15)',...
+%     ', numberOfTripsPerDay = ' num2str(numberOfTripsPerDay)]);
+% disp(['vehicleVelocitySmooth = ' num2str(vehicleVelocitySmooth*3.6),' km/h',...
+%     ', vehicleVelocityRough = ' num2str(vehicleVelocityRough*3.6),' km/h',...
+%     ', vehicleVelocityVeryRough = ' num2str(vehicleVelocityVeryRough*3.6),' km/h'])
 

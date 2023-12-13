@@ -71,6 +71,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % iii)
 % Calculate time averaged vibration exposure value for 8h period
+
 timeOnSmoothRoad = (distanceSmoothRoad / vehicleVelocitySmooth)*numberOfTripsPerDay;
 timeOnRoughRoad = (distanceRoughRoad / vehicleVelocityRough)*numberOfTripsPerDay;
 timeOnVeryRoughRoad = (distanceVeryRoughRoad / vehicleVelocityVeryRough)*numberOfTripsPerDay;
@@ -86,4 +87,5 @@ disp(['timeWeightedRmsAcceleration =' num2str(timeWeightedRmsAcceleration),' m/s
 disp(['vehicleVelocitySmooth = ' num2str(vehicleVelocitySmooth*3.6),' km/h',...
     ', vehicleVelocityRough = ' num2str(vehicleVelocityRough*3.6),' km/h',...
     ', vehicleVelocityVeryRough = ' num2str(vehicleVelocityVeryRough*3.6),' km/h'])
+
 
