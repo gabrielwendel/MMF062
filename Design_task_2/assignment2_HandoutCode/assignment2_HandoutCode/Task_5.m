@@ -8,11 +8,13 @@ clc;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Plots driver 1 20/80 distribution
 % Plot lateral acceleration as a function of steering angle
-load('skidpad driver 1 2080 use.mat')
+% load('skidpad driver 1 2080 use.mat')
+load('skidpad driver 2 2080.mat')
 
 % Edit loop interval, until a satisfiable plot is achieved, do not use all
 % data points.
-for i = 1:80000          % length(delta)
+for i = 1:length(delta)
+    % Some data filtering
     if delta(i) > 0 && accelerationLocal(i, 2) > 0 && position(i, 2) ~= 0
         lat_acc(i) = accelerationLocal(i, 2);
         steer_ang(i) = delta(i);
