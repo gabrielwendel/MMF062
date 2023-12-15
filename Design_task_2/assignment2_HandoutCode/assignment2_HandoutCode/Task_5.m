@@ -36,14 +36,14 @@ y_pos = y_pos(y_pos ~= 0);
 
 figure(1)
 plot(steer_ang,lat_acc)
-title('Lateral acceleration as a function of steering angle 80/20 distribution','Interpreter','latex')
+title('Lateral acceleration as a function of steering angle 20/80 distribution','Interpreter','latex')
 xlabel('Steering angle $\delta$ [$^{\circ}$]','Interpreter','latex')
 ylabel('Lateral acceleration [$m/s^2$]','Interpreter','latex')
 
 % Plot trajectories of the vehicle position (xy plot)
 figure(2)
 plot(x_pos,y_pos)
-title('Car trajectory (xy position) 80/20 distribution','interpreter','latex')
+title('Car trajectory (xy position) 20/80 distribution','interpreter','latex')
 xlabel('x position [m]','interpreter','latex')
 ylabel('y position [m]','interpreter','latex')
 
@@ -81,7 +81,6 @@ plot(steer_ang,lat_acc)
 title('Lateral acceleration as a function of steering angle 80/20 distribution','Interpreter','latex')
 xlabel('Steering angle $\delta$ [$^{\circ}$]','Interpreter','latex')
 ylabel('Lateral acceleration [$m/s^2$]','Interpreter','latex')
-
 % Plot trajectories of the vehicle position (xy plot)
 figure(4)
 plot(x_pos,y_pos)
